@@ -1,6 +1,7 @@
 import express from 'express';
+import { error404, globalError } from './middlewares';
 
-import { currentUserRouter, error404, globalError, signinRouter, signoutRouter, signupRouter } from './routes';
+import { currentUserRouter, signinRouter, signoutRouter, signupRouter } from './routes';
 
 const app = express();
 
@@ -12,7 +13,7 @@ app.use(signoutRouter);
 app.use(signinRouter);
 
 // Unhandled Endpoint Error
-app.use('/*', error404);
+app.use(error404);
 
 // Global Error Handler
 app.use(globalError);
