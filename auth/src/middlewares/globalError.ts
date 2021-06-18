@@ -1,14 +1,27 @@
 import { NextFunction, Request, Response } from 'express';
-import { HttpError } from '../utils';
+import { HttpError, RequestValidationError } from '../utils';
 
-const globalError = (error: HttpError, req: Request, res: Response, next: NextFunction) => {
+const globalError = (error: Error, req: Request, res: Response, next: NextFunction) => {
   if (res.headersSent) {
     return next(error);
   }
 
-  const status = error.status || 500;
-  return res.status(status).json({
-    message: error.message || 'An unexpected error occurred!',
+  if (error instanceof HttpError) {
+    return res.status(error.status).json({
+      message: error.message,
+    });
+  }
+
+  if (error instanceof RequestValidationError) {
+    const formatErrors = error.errors.map((err) => {
+      return { message: err.msg, field: err.param };
+    });
+
+    return res.status(400).json({ errors: formatErrors });
+  }
+
+  return res.status(500).json({
+    message: error.message || 'An unexpected error occurred',
   });
 };
 
