@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
-import { RequestValidationError } from '../utils';
+import { HttpError, RequestValidationError } from '../utils';
 
 const router = express.Router();
 
@@ -13,10 +13,10 @@ router.post(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const errors = validationResult(req);
+
       if (!errors.isEmpty()) {
         throw new RequestValidationError(errors.array());
       }
-
       const { email, password } = req.body;
 
       console.log('User created!');
