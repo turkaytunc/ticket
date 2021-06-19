@@ -1,9 +1,12 @@
-export class HttpError extends Error {
-  status: number;
+import { ErrorFormatter } from '../interfaces/ErrorFormatter';
 
-  constructor(message: string, status: number) {
+export class HttpError extends Error implements ErrorFormatter {
+  constructor(public message: string, public field: string, public statusCode: number) {
     super();
-    this.message = message;
-    this.status = status;
+
+    Object.setPrototypeOf(this, HttpError.prototype);
+  }
+  formatError() {
+    return [{ message: this.message, field: this.field }];
   }
 }
