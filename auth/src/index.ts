@@ -1,5 +1,6 @@
 import express from 'express';
 import { error404, globalError } from './middlewares';
+import mongoose from 'mongoose';
 
 import { currentUserRouter, signinRouter, signoutRouter, signupRouter } from './routes';
 
@@ -18,6 +19,21 @@ app.use(error404);
 // Global Error Handler
 app.use(globalError);
 
-app.listen(3000, () => {
-  console.log('Auth Service => http://localhost:3000');
-});
+const startServer = async () => {
+  try {
+    await mongoose.connect('mongodb://auth-mongo-srv:27017/auth', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+    });
+    console.log('Connected to MongoDB');
+  } catch (err) {
+    console.log(err);
+  }
+
+  app.listen(3000, () => {
+    console.log('Auth Service => http://localhost:3000');
+  });
+};
+
+startServer();
