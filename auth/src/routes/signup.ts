@@ -1,5 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
+import { User } from '../models';
 import { HttpError, RequestValidationError } from '../utils';
 
 const router = express.Router();
@@ -19,9 +20,15 @@ router.post(
       }
       const { email, password } = req.body;
 
-      console.log('User created!');
+      const isUserExists = await User.findOne({ email });
 
-      return res.send({});
+      if (isUserExists) {
+        throw new HttpError('User already exists', 'user', 400);
+      }
+
+      const user = User.build({ email, password });
+      user.save();
+      return res.json({ user });
     } catch (err) {
       next(err);
     }
