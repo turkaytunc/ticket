@@ -27,7 +27,7 @@ router.post(
       }
 
       const user = User.build({ email, password });
-      user.save();
+      await user.save();
       return res.json({ user });
     } catch (err) {
       next(err);
