@@ -1,4 +1,4 @@
 export interface ErrorFormatter {
   statusCode: number;
-  formatError: () => { message: string; field: string }[];
+  formatError: () => { message: string; field?: string }[];
 }
