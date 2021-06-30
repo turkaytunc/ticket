@@ -28,7 +28,7 @@ router.post(
 
       const userJwt = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_KEY!);
       req.session = { jwt: userJwt };
-      return res.json({ user });
+      return res.status(201).json({ user });
     } catch (err) {
       next(err);
     }
