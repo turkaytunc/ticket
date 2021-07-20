@@ -28,6 +28,9 @@ app.use(error404);
 app.use(globalError);
 
 const startServer = async () => {
+  if (!process.env.JWT_KEY) {
+    throw new Error('JWT_KEY not found');
+  }
   try {
     await mongoose.connect('mongodb://auth-mongo-srv:27017/auth', {
       useNewUrlParser: true,

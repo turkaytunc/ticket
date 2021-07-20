@@ -1,3 +1,3 @@
 export { HttpError } from './HttpError';
 export { RequestValidationError } from './RequestValidationError';
-export { Password } from './Password';
+export { PasswordManager } from './PasswordManager';
