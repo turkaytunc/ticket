@@ -1,10 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-
-interface UserPayload {
-  id: string;
-  email: string;
-}
+import { UserPayload } from '../interfaces';
 
 export const currentUser = (req: Request & { currentUser?: UserPayload }, res: Response, next: NextFunction) => {
   try {
