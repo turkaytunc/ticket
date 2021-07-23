@@ -26,3 +26,12 @@ it('should return 400 status on duplicate email', async () => {
 
   expect(response.body.errors[0].message).toBe('User already exists');
 });
+
+it('should return jwt on valid signup operation', async () => {
+  const response = await supertest(app)
+    .post('/api/users/signup')
+    .send({ email: 'test@test.com', password: 'pass123' })
+    .expect(201);
+
+  expect(response.get('Set-Cookie')[0]).toMatch(/express:sess/);
+});
