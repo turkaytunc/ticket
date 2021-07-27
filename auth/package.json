@@ -5,7 +5,24 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node-dev src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --coverage --watchAll --no-cache"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "./src/test/setup.ts"
+    ],
+    "coverageReporters": [
+      "html",
+      "lcov",
+      "json",
+      "text"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.(ts|tsx)",
+      "!src/index.ts"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -21,5 +38,13 @@
     "mongoose": "^5.12.14",
     "ts-node-dev": "^1.1.6",
     "typescript": "^4.3.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.24",
+    "@types/supertest": "^2.0.11",
+    "jest": "^27.0.6",
+    "mongodb-memory-server": "^7.3.1",
+    "supertest": "^6.1.4",
+    "ts-jest": "^27.0.4"
   }
 }
